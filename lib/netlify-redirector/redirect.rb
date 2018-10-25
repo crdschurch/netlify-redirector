@@ -2,8 +2,8 @@ module NetlifyRedirector
   class Redirect
     attr_accessor :path, :dest, :status, :context
 
-    def initialize(csv)
-      @path, @dest, @status, @context = csv
+    def initialize(arr)
+      @path, @dest, @status, @context = arr
     end
 
     def to_s

@@ -1,6 +1,7 @@
 module NetlifyRedirector
   class Parser
 
+
     attr_accessor :output, :src, :dest, :csv, :debug, :redirs
 
     def initialize(dest_dir=nil)
@@ -21,40 +22,26 @@ module NetlifyRedirector
     end
 
     def write!
-      log "Writing _redirects...", :green
+      log "Writing _redirects...".colorize(:green)
       @output = File.new(@dest, "w")
       @redirs.each do |redir|
         if redir.context_included?
-          printf colorized_s, redir.path, redir.dest, redir.status if @debug
+          log redir.to_s.colorize(:yellow) if @debug
           @output.puts(redir.to_s)
         else
-          log "\s\s#{redir.error}", :red
+          log "\s\s#{redir.error}".colorize(:red)
         end
         @total += 1
       end
       @output.close
-      log "#{@total} rows written to _redirects file", :green
+      log "#{@total} rows written to #{@dest} file".colorize(:green)
     end
 
     private
 
-      # Returns the length of the longest lines in our CSV
-      # so we can format the build output real nice
-      def tabs
-        [
-          Redirect.replace(@csv.collect(&:first).max_by(&:length)).length + 3,
-          Redirect.replace(@csv.collect{|row| row.drop(1).each_slice(2).map(&:first) }.flatten.max_by(&:length)).length + 15
-        ]
-      end
-
-      def colorized_s
-        ColorizedString.new("\s\s%-#{tabs[0]}s %-#{tabs[1]}s %s\n").send(:yellow)
-      end
-
-      def log(str, color=nil)
+    def log(str)
         if @debug
-          STDOUT.write color ? ColorizedString.new(str).send(color) : str
-          STDOUT.write("\n")
+          STDOUT.write "#{str}\n"
         end
       end
 

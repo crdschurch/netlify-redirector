@@ -12,4 +12,6 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   s.require_paths = ["lib"]
   s.add_dependency 'activesupport'
+  s.add_dependency 'rake'
+  s.add_dependency 'colorize'
 end
