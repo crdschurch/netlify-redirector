@@ -18,7 +18,7 @@ Create a new file called `redirects.csv` and put it in the root of your applicat
 
 | Source | Destination | Status | Context |
 | --- | --- | --- | --- |
-| This is the path you want to match | This is the destination for your rule | The status code associated with the rule | Comma delimited string of branch names for your deployment context, leave this column blank for "no context" |
+| This is the path you want to match | This is the destination for your rule | The status code associated with the rule, eg. `301`, `200!`, etc. | Comma delimited string of branch names for your deployment context, leave this column blank for "no context" |
 
 If you have defined a context for a rule, it will only be rendered for when the current branch name is included within that column; if you have not defined a context, that rule will be deployed everywhere.
 
@@ -28,10 +28,25 @@ When referring to exported ENV variables, you need to use the following conventi
 ${env:SOME_ENV_VARIABLE}
 ```
 
-This gem provides a Rake task for building your `_redirects` file. You'll need to update your build command the reflect the following...
+In order use this library in your build script, you'll need to make it available within your project. The easiest way to do this is create a new file in your Bundler compatible project with the following contents (e.g. `./bin/netlify-redirector`)...
+
+```ruby
+#!/usr/bin/env ruby
+require 'bundler/setup'
+Bundler.require(:default)
+NetlifyRedirector::Parser.new().write!
+```
+
+Make that file executable, like so...
+
+```bash
+$ chmod +x ./bin/netlify-redirector
+```
+
+Now just update your build script the reflect the following command...
 
 ```
-$ bundle exec rake redirects:write
+$ ./bin/netlify-redirector
 ```
 
 ## License

@@ -22,26 +22,26 @@ module NetlifyRedirector
     end
 
     def write!
-      log "Writing _redirects...".colorize(:green)
+      log "Writing _redirects..."
       @output = File.new(@dest, "w")
       @redirs.each do |redir|
         if redir.context_included?
-          log redir.to_s.colorize(:yellow) if @debug
+          log redir.to_s if @debug
           @output.puts(redir.to_s)
         else
-          log "\s\s#{redir.error}".colorize(:red)
+          log "\s\s#{redir.error}"
         end
         @total += 1
       end
       @output.close
-      log "#{@total} rows written to #{@dest} file".colorize(:green)
+      log "#{@total} rows written to #{@dest} file"
     end
 
     private
 
     def log(str)
         if @debug
-          STDOUT.write "#{str}\n"
+          puts "#{str}\n"
         end
       end
 
