@@ -12,22 +12,6 @@ Add the following to your project's Gemfile and bundle...
 gem 'netlify-redirector', github: 'crdschurch/netlify-redirector'
 ```
 
-## Usage
-
-Create a new file called `redirects.csv` and put it in the root of your application directory ([example](https://github.com/crdschurch/netlify-redirector/blob/master/redirects.csv)). Each row in your CSV file should contain the following columns:
-
-| Source | Destination | Status | Context |
-| --- | --- | --- | --- |
-| This is the path you want to match | This is the destination for your rule | The status code associated with the rule, eg. `301`, `200!`, etc. | Comma delimited string of branch names for your deployment context, leave this column blank for "no context" |
-
-If you have defined a context for a rule, it will only be rendered for when the current branch name is included within that column; if you have not defined a context, that rule will be deployed everywhere.
-
-When referring to exported ENV variables, you need to use the following convention in your CSV...
-
-```
-${env:SOME_ENV_VARIABLE}
-```
-
 In order use this library in your build script, you'll need to make it available within your project. The easiest way to do this is create a new file in your Bundler compatible project with the following contents (e.g. `./bin/netlify-redirector`)...
 
 ```ruby
@@ -47,6 +31,22 @@ Now just update your build script the reflect the following command...
 
 ```
 $ ./bin/netlify-redirector
+```
+
+## Usage
+
+Create a new file called `redirects.csv` and put it in the root of your application directory ([example](https://github.com/crdschurch/netlify-redirector/blob/master/redirects.csv)). Each row in your CSV file should contain the following columns:
+
+| Source | Destination | Status | Context |
+| --- | --- | --- | --- |
+| This is the path you want to match | This is the destination for your rule | The status code associated with the rule, eg. `301`, `200!`, etc. | Comma delimited string of branch names for your deployment context, leave this column blank for "no context" |
+
+If you have defined a context for a rule, it will only be rendered for when the current branch name is included within that column; if you have not defined a context, that rule will be deployed everywhere.
+
+When referring to exported ENV variables, you need to use the following convention in your CSV...
+
+```
+${env:SOME_ENV_VARIABLE}
 ```
 
 ## License
