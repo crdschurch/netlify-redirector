@@ -56,8 +56,6 @@ describe NetlifyRedirector::Redirect do
     end
   end
 
-
-
   it 'should include rules with context specified' do
     src = "/undivided-training,https://undivided.netlify.com,301,release"
     @redirect = NetlifyRedirector::Redirect.new(src.split(','))

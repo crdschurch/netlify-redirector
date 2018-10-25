@@ -29,6 +29,7 @@ describe NetlifyRedirector::Parser do
   end
 
   it 'should contain evaluated ENV variables in output' do
+    ENV['CRDS_MAESTRO_CLIENT_ENDPOINT'] = '//something.com'
     @redir.debug = false
     @redir.write!
     expect(File.read(@redir.output)).to include(ENV['CRDS_MAESTRO_CLIENT_ENDPOINT'])
