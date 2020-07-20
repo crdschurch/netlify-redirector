@@ -9,7 +9,11 @@ module NetlifyRedirector
     def to_s
       path = self.class.replace(@path)
       dest = self.class.replace(@dest)
-      "#{path}\t#{dest}\t#{@status}"
+      if path === dest
+        "#{path}\t#{@status}"
+      else
+        "#{path}\t#{dest}\t#{@status}"
+      end
     end
 
     def context_included?
