@@ -74,10 +74,4 @@ describe NetlifyRedirector::Redirect do
     expect(@redirect.context_included?).to be_falsey
   end
 
-  it 'should abbreviate rules where path and destination are identical' do
-    src = "collegecamp/prepaidregistrationconfirmation/,collegecamp/prepaidregistrationconfirmation/,200! Role=user".split(',')
-    @redirect = NetlifyRedirector::Redirect.new(src)
-    expect(@redirect.to_s).to eq("collegecamp/prepaidregistrationconfirmation/\t200! Role=user")
-  end
-
 end
