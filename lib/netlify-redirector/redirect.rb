@@ -10,9 +10,17 @@ module NetlifyRedirector
       path = self.class.replace(@path)
       dest = self.class.replace(@dest)
       if path === dest
-        "#{path}\t#{@status}"
+        "#{with_slash(path)}\t#{@status}"
       else
-        "#{path}\t#{dest}\t#{@status}"
+        "#{with_slash(path)}\t#{with_slash(dest)}\t#{@status}"
+      end
+    end
+
+    def with_slash(str)
+      if str.is_a?(String) && ! %w(http: https ${env).include?(str[0..4])
+        str[0] != '/' ? "/#{str}" : str
+      else
+        str
       end
     end
 

@@ -77,7 +77,18 @@ describe NetlifyRedirector::Redirect do
   it 'should abbreviate rules where path and destination are identical' do
     src = "collegecamp/prepaidregistrationconfirmation/,collegecamp/prepaidregistrationconfirmation/,200! Role=user".split(',')
     @redirect = NetlifyRedirector::Redirect.new(src)
-    expect(@redirect.to_s).to eq("collegecamp/prepaidregistrationconfirmation/\t200! Role=user")
+    expect(@redirect.to_s).to eq("/collegecamp/prepaidregistrationconfirmation/\t200! Role=user")
+  end
+
+  it 'should prepend slashes to paths, as needed' do
+    @redirect = NetlifyRedirector::Redirect.new("undivided-training,http://undivided.com,200!".split(','))
+    expect(@redirect.to_s).to eq("/undivided-training\thttp://undivided.com\t200!")
+
+    @redirect = NetlifyRedirector::Redirect.new("undivided-training,undivided,200!".split(','))
+    expect(@redirect.to_s).to eq("/undivided-training\t/undivided\t200!")
+
+    @redirect = NetlifyRedirector::Redirect.new("http://www.crossroads.net/undivided,https://www.crossroads.net/undivided,200!".split(','))
+    expect(@redirect.to_s).to eq("http://www.crossroads.net/undivided\thttps://www.crossroads.net/undivided\t200!")
   end
 
 end
